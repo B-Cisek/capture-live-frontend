@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --card-bg: var(--p-surface-0);
+  --card-border: var(--p-surface-200)
+}
+
+:root.dark {
+  --card-bg: var(--p-surface-900);
+  --card-border: var(--p-surface-700)
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  padding: 2rem;
+}

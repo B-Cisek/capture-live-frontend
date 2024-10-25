@@ -1,5 +1,5 @@
-import './assets/main.css'
 import 'primeicons/primeicons.css'
+import './assets/main.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
