@@ -1,11 +1,20 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
+import { type SignUpForm, useAuthStore } from '@/stores/useAuthStore'
+import router from '@/router'
 
-const form = reactive({
-  email: '',
-  password: '',
-  password_confirmation: '',
+const auth = useAuthStore()
+
+const form = reactive<SignUpForm>({
+  email: 'bartek12@vp.pl',
+  password: 'password',
+  password_confirmation: 'password',
 })
+
+const handleSignup = async () => {
+  await auth.signup(form)
+  await router.push('/dashboard')
+}
 </script>
 
 <template>
@@ -17,7 +26,7 @@ const form = reactive({
     </h2>
   </div>
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm card">
-    <form class="flex flex-col gap-4">
+    <form @submit.prevent="handleSignup" class="flex flex-col gap-4">
       <div class="flex flex-col gap-2">
         <label for="email">Email</label>
         <InputText
@@ -57,7 +66,7 @@ const form = reactive({
           >Enter your username to reset your password.</small
         >
       </div>
-      <Button class="w-full" label="Sign up" />
+      <Button type="submit" class="w-full" label="Sign up" />
     </form>
     <p class="mt-10 text-center text-sm">
       Already have account?
