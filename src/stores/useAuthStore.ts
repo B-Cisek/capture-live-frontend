@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import { api } from '@/utils/api'
 import { useCookies } from '@vueuse/integrations/useCookies'
 import { useStorage } from '@vueuse/core'
+import { api } from '@/utils/api'
 
 export interface User {
   id: string
@@ -26,38 +26,32 @@ export const useAuthStore = defineStore('auth', () => {
   const cookies = useCookies(['token'])
 
   async function signin(form: SignInForm): void {
-    const res = await api.url('/signin').post(form)
+    const response = await api.post(form, '/signin').json()
 
-    cookies.set('token', res.token, {
-      path: '/', // Make cookie accessible site-wide
-      secure: true, // Ensures cookie is sent over HTTPS
-      httpOnly: false, // Set to true if used on server-side only
-      sameSite: 'strict', // Strict setting prevents cross-site sending
-    })
+    setCookie('token', response.token)
 
     await fetchUser()
   }
 
   async function signup(form: SignUpForm): void {
-    const res = await api.url('/signup').post(form)
+    const response = await api.post(form, '/signup').json()
 
-    cookies.set('token', res.token, {
-      path: '/', // Make cookie accessible site-wide
-      secure: true, // Ensures cookie is sent over HTTPS
-      httpOnly: false, // Set to true if used on server-side only
-      sameSite: 'strict', // Strict setting prevents cross-site sending
-    })
+    setCookie('token', response.token)
 
     await fetchUser()
   }
 
   async function logout(): void {
-    await api.url('/logout').post()
-    clearState()
+    try {
+      await api.url('/logout').post().res()
+      clearState()
+    } catch (err) {
+      clearState()
+    }
   }
 
   async function fetchUser(): void {
-    user.value = (await api.get('/me')) as User
+    user.value = (await api.get('/me').json()) as User
     useStorage('user', user.value)
   }
 
@@ -65,6 +59,15 @@ export const useAuthStore = defineStore('auth', () => {
     cookies.remove('token')
     user.value = null
     useStorage('user').value = null
+  }
+
+  function setCookie(key: string, value: string) {
+    cookies.set(key, value, {
+      path: '/', // Make cookie accessible site-wide
+      secure: true, // Ensures cookie is sent over HTTPS
+      httpOnly: false, // Set to true if used on server-side only
+      sameSite: 'strict', // Strict setting prevents cross-site sending
+    })
   }
 
   return { signin, logout, signup, user, clearState, isAuthenticated }

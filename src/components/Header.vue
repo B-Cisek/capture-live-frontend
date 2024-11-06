@@ -1,45 +1,65 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import DarkModeButton from '@/components/DarkModeButton.vue'
+import { useAuthStore } from '@/stores/useAuthStore'
+import router from '@/router'
 
-const items = ref([
+const auth = useAuthStore()
+
+const navItems = ref([
   {
     label: 'Dashboard',
     href: '/dashboard',
     icon: 'pi pi-home',
   },
-
   {
-    label: 'Projects',
-    icon: 'pi pi-search',
-    badge: 3,
+    label: 'Streams',
+    href: '/streams',
+    icon: 'pi pi-home',
+  },
+  {
+    label: 'Videos',
+    href: '/videos',
+    icon: 'pi pi-home',
+  },
+  {
+    label: 'Settings',
+    href: '/settings',
+    icon: 'pi pi-home',
+  },
+])
+
+const menu = ref()
+const menuItems = ref([
+  {
+    // label: 'Options',
     items: [
       {
-        label: 'Core',
-        icon: 'pi pi-bolt',
-        shortcut: '⌘+S',
+        label: 'Refresh',
+        icon: 'pi pi-refresh',
       },
       {
-        label: 'Blocks',
-        icon: 'pi pi-server',
-        shortcut: '⌘+B',
-      },
-      {
-        separator: true,
-      },
-      {
-        label: 'UI Kit',
-        icon: 'pi pi-pencil',
-        shortcut: '⌘+U',
+        label: 'Logout',
+        icon: 'pi pi-upload',
+        command: () => handleLogout(),
       },
     ],
   },
 ])
+
+async function handleLogout() {
+  await auth.logout()
+  await router.push('/')
+}
+
+const toggle = event => {
+  menu.value.toggle(event)
+}
 </script>
 
 <template>
   <div class="p-2">
-    <Menubar :model="items">
+    <Menubar :model="navItems">
       <template #start>
         <svg
           width="35"
@@ -60,7 +80,13 @@ const items = ref([
         </svg>
       </template>
       <template #item="{ item, props, hasSubmenu, root }">
-        <a v-ripple class="flex items-center" v-bind="props.action">
+        <RouterLink
+          as="a"
+          :to="item.href"
+          v-ripple
+          class="flex items-center"
+          v-bind="props.action"
+        >
           <span>{{ item.label }}</span>
           <Badge
             v-if="item.badge"
@@ -79,15 +105,26 @@ const items = ref([
               { 'pi-angle-down': root, 'pi-angle-right': !root },
             ]"
           ></i>
-        </a>
+        </RouterLink>
       </template>
       <template #end>
         <div class="flex items-center gap-2">
           <DarkModeButton />
-          <Avatar
-            image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png"
-            shape="circle"
-          />
+          <div class="flex justify-center">
+            <Button
+              type="button"
+              icon="pi pi-ellipsis-v"
+              @click="toggle"
+              aria-haspopup="true"
+              aria-controls="overlay_menu"
+            />
+            <Menu
+              ref="menu"
+              id="overlay_menu"
+              :model="menuItems"
+              :popup="true"
+            />
+          </div>
         </div>
       </template>
     </Menubar>

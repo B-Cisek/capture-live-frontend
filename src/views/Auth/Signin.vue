@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { type SignInForm, useAuthStore } from '@/stores/useAuthStore'
 import router from '@/router'
+import type { WretchError } from 'wretch'
 
 const auth = useAuthStore()
 
@@ -10,9 +11,17 @@ const form = reactive<SignInForm>({
   password: 'password',
 })
 
+const errorMessage = ref()
+
 const handleSignIn = async () => {
-  await auth.signin(form)
-  await router.push('/dashboard')
+  try {
+    await auth.signin(form)
+    await router.push('/dashboard')
+  } catch (err: WretchError) {
+    if (err.json.error) {
+      errorMessage.value = err.json.message
+    }
+  }
 }
 </script>
 
@@ -34,9 +43,13 @@ const handleSignIn = async () => {
           name="email"
           v-model="form.email"
           required
+          :invalid="!!errorMessage"
         />
-        <small id="email-error"
-          >Enter your username to reset your password.</small
+        <small
+          v-if="errorMessage"
+          id="email-error"
+          class="text-red-700 text-sm font-semibold"
+          >{{ errorMessage }}</small
         >
       </div>
       <div class="flex flex-col gap-2">
@@ -47,6 +60,7 @@ const handleSignIn = async () => {
           name="password"
           v-model="form.password"
           required
+          :invalid="!!errorMessage"
         />
         <small id="password-error"
           >Enter your username to reset your password.</small

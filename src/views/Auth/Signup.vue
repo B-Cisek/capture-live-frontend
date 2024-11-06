@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { type SignUpForm, useAuthStore } from '@/stores/useAuthStore'
 import router from '@/router'
+import type { WretchError } from 'wretch'
 
 const auth = useAuthStore()
 
@@ -11,9 +12,17 @@ const form = reactive<SignUpForm>({
   password_confirmation: 'password',
 })
 
+const validationErrors = ref()
+
 const handleSignup = async () => {
-  await auth.signup(form)
-  await router.push('/dashboard')
+  try {
+    await auth.signup(form)
+    await router.push('/dashboard')
+  } catch (err: WretchError) {
+    if (err.json.error) {
+      validationErrors.value = err.json.errors
+    }
+  }
 }
 </script>
 
@@ -34,10 +43,14 @@ const handleSignup = async () => {
           type="email"
           name="email"
           v-model="form.email"
+          :invalid="!!validationErrors?.email"
           required
         />
-        <small id="email-error"
-          >Enter your username to reset your password.</small
+        <small
+          id="email-error"
+          v-if="validationErrors?.email"
+          class="text-red-700 text-sm font-semibold"
+          >{{ validationErrors?.email[0] }}</small
         >
       </div>
       <div class="flex flex-col gap-2">
@@ -47,10 +60,14 @@ const handleSignup = async () => {
           type="password"
           name="password"
           v-model="form.password"
+          :invalid="!!validationErrors?.password"
           required
         />
-        <small id="password-error"
-          >Enter your username to reset your password.</small
+        <small
+          id="password-error"
+          v-if="validationErrors?.password"
+          class="text-red-700 text-sm font-semibold"
+          >{{ validationErrors?.password[0] }}</small
         >
       </div>
       <div class="flex flex-col gap-2">
@@ -62,9 +79,6 @@ const handleSignup = async () => {
           v-model="form.password_confirmation"
           required
         />
-        <small id="password_confirmation-error"
-          >Enter your username to reset your password.</small
-        >
       </div>
       <Button type="submit" class="w-full" label="Sign up" />
     </form>

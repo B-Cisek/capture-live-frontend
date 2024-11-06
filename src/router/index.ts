@@ -34,6 +34,24 @@ const router = createRouter({
       component: () => import('@/views/Auth/Signup.vue'),
     },
     {
+      path: '/streams',
+      name: 'streams',
+      meta: { layout: AuthLayout, middleware: ['auth'] },
+      component: () => import('@/views/Stream.vue'),
+    },
+    {
+      path: '/videos',
+      name: 'videos',
+      meta: { layout: AuthLayout, middleware: ['auth'] },
+      component: () => import('@/views/Video.vue'),
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      meta: { layout: AuthLayout, middleware: ['auth'] },
+      component: () => import('@/views/Setting.vue'),
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('@/views/NotFound.vue'),
