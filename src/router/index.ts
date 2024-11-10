@@ -37,7 +37,7 @@ const router = createRouter({
       path: '/streams',
       name: 'streams',
       meta: { layout: AuthLayout, middleware: ['auth'] },
-      component: () => import('@/views/Stream.vue'),
+      component: () => import('@/views/Stream/Index.vue'),
     },
     {
       path: '/videos',

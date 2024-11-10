@@ -4,7 +4,8 @@ import Header from '@/components/Header.vue'
 
 <template>
   <Header />
-  <main>
+  <main class="w-full p-2">
     <slot />
   </main>
+  <Toast />
 </template>
