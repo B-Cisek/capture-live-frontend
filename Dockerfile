@@ -7,9 +7,9 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY . .
-
 RUN npm run build-only
+
+COPY . .
 
 # Production stage
 FROM nginx:stable-alpine as production-stage
