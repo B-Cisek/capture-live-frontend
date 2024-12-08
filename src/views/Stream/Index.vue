@@ -137,25 +137,32 @@ const editStream = stream => {
         </template>
         <template #empty> No customers found. </template>
         <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-        <Column header="Username" style="min-width: 14rem">
+        <Column header="Username">
           <template #body="{ data }">
             <div class="flex items-center gap-2">
-              <span>{{ data.username }}</span>
+              <span>{{ data.channel }}</span>
             </div>
           </template>
         </Column>
-        <Column
-          header="Platform"
-          :filterMenuStyle="{ width: '14rem' }"
-          style="min-width: 14rem"
-        >
+        <Column header="Platform" :filterMenuStyle="{ width: '14rem' }">
           <template #body="{ data }">
             <div class="flex items-center gap-2">
               <span>{{ data.platform }}</span>
             </div>
           </template>
         </Column>
-        <Column field="isActive" header="Is Active" style="min-width: 10rem">
+        <Column
+          header="Quality"
+          :filterMenuStyle="{ width: '14rem' }"
+          style="min-width: 14rem"
+        >
+          <template #body="{ data }">
+            <div class="flex items-center gap-2">
+              <span>{{ data.quality ?? '-' }}</span>
+            </div>
+          </template>
+        </Column>
+        <Column field="isActive" header="Is Active">
           <template #body="{ data }">
             <Tag
               :value="data.isActive ? 'Active' : 'In Active'"

@@ -80,7 +80,7 @@ const handleSubmit = async () => {
   const changedSettings = []
 
   for (const [key, value] of Object.entries(baseSettings)) {
-    if (settings[key] !== value) {
+    if (settings[key] !== undefined && settings[key] !== value) {
       changedSettings.push({ name: key, value: String(settings[key]) })
     }
   }
