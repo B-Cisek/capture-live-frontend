@@ -4,4 +4,3 @@ dist
 .gitignore
 .vscode
 .idea
-.env
