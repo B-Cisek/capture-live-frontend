@@ -3,6 +3,47 @@ import { reactive, ref } from 'vue'
 import { Platform, streamRepository } from '@/repositories/streamRepository'
 import { useToast } from 'primevue/usetoast'
 
+enum TwitchQualityEnum {
+  WORST = 'worst',
+  _160P = '160p',
+  _360P = '360p',
+  _480P = '480p',
+  _720P = '720p60',
+  _1080P = '1080p60',
+  BEST = 'best',
+}
+
+const twitchQuality = [
+  {
+    label: 'Worst',
+    value: TwitchQualityEnum.WORST,
+  },
+  {
+    label: '160p',
+    value: TwitchQualityEnum._160P,
+  },
+  {
+    label: '360p',
+    value: TwitchQualityEnum._360P,
+  },
+  {
+    label: '480p',
+    value: TwitchQualityEnum._480P,
+  },
+  {
+    label: '720p60',
+    value: TwitchQualityEnum._720P,
+  },
+  {
+    label: '1080p60',
+    value: TwitchQualityEnum._1080P,
+  },
+  {
+    label: 'Best',
+    value: TwitchQualityEnum.BEST,
+  },
+]
+
 defineProps({
   open: {
     type: Boolean,
@@ -15,7 +56,7 @@ const platforms = ref([{ label: 'Twitch', value: Platform.TWITCH }])
 const emit = defineEmits(['close', 'refreshStreams'])
 
 const initialForm = {
-  username: '',
+  channel: '',
   platform: '',
   is_active: true,
   start_at: null,
@@ -65,10 +106,10 @@ const handleSubmit = async () => {
     </template>
     <div class="flex flex-col gap-2">
       <div class="flex flex-col gap-1">
-        <label for="username" class="font-semibold w-24">Username</label>
+        <label for="channel" class="font-semibold w-24">Channel</label>
         <InputText
-          v-model="form.username"
-          id="username"
+          v-model="form.channel"
+          id="channel"
           class="flex-auto"
           autocomplete="off"
         />
@@ -81,6 +122,16 @@ const handleSubmit = async () => {
           optionLabel="label"
           option-value="value"
           placeholder="Select a Platform"
+        />
+      </div>
+      <div class="flex flex-col gap-1">
+        <label for="quality" class="font-semibold w-24">Quality</label>
+        <Select
+          v-model="form.quality"
+          :options="twitchQuality"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select a Quality"
         />
       </div>
       <div class="flex flex-col gap-1">

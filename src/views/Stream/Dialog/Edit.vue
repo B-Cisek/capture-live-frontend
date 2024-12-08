@@ -17,8 +17,9 @@ const props = defineProps({
 })
 
 const form = reactive({
-  username: props.stream.username,
+  channel: props.stream.channel,
   platform: props.stream.platform,
+  quality: props.stream.quality,
   is_active: props.stream.isActive,
   start_at: props.stream.startAt ? new Date(props.stream.startAt) : null,
   end_at: props.stream.endAt ? new Date(props.stream.endAt) : null,
@@ -33,6 +34,47 @@ const handleSubmit = async () => {
   emit('close')
   emit('refreshStreams')
 }
+
+enum TwitchQualityEnum {
+  WORST = 'worst',
+  _160P = '160p',
+  _360P = '360p',
+  _480P = '480p',
+  _720P = '720p60',
+  _1080P = '1080p60',
+  BEST = 'best',
+}
+
+const twitchQuality = [
+  {
+    value: TwitchQualityEnum.WORST,
+    label: 'Worst',
+  },
+  {
+    value: TwitchQualityEnum._160P,
+    label: '160p',
+  },
+  {
+    value: TwitchQualityEnum._360P,
+    label: '360p',
+  },
+  {
+    value: TwitchQualityEnum._480P,
+    label: '480p',
+  },
+  {
+    value: TwitchQualityEnum._720P,
+    label: '720p60',
+  },
+  {
+    value: TwitchQualityEnum._1080P,
+    label: '1080p60',
+  },
+  {
+    value: TwitchQualityEnum.BEST,
+    label: 'Best',
+  },
+]
 </script>
 
 <template>
@@ -49,10 +91,10 @@ const handleSubmit = async () => {
     </template>
     <div class="flex flex-col gap-2">
       <div class="flex flex-col gap-1">
-        <label for="username" class="font-semibold w-24">Username</label>
+        <label for="channel" class="font-semibold w-24">Channel</label>
         <InputText
-          v-model="form.username"
-          id="username"
+          v-model="form.channel"
+          id="channel"
           class="flex-auto"
           autocomplete="off"
         />
@@ -65,6 +107,16 @@ const handleSubmit = async () => {
           optionLabel="label"
           option-value="value"
           placeholder="Select a Platform"
+        />
+      </div>
+      <div class="flex flex-col gap-1">
+        <label for="quality" class="font-semibold w-24">Quality</label>
+        <Select
+          v-model="form.quality"
+          :options="twitchQuality"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select a Quality"
         />
       </div>
       <div class="flex flex-col gap-1">
