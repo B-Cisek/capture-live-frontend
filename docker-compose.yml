@@ -3,15 +3,11 @@ services:
     container_name: frontend-capture-live
     image: bartek2k/capture-live-frontend:latest
     environment:
-      VITE_APP_API_URL: 'https://api.bartlomiejcisek.online'
+      VITE_APP_API_URL: ${VITE_APP_API_URL}
     labels:
       - traefik.enable=true
-      - traefik.http.routers.app-capture-live.rule=Host(`bartlomiejcisek.online`)
-      - traefik.http.routers.app-capture-live.entrypoints=web
-      - traefik.http.routers.app-capture-live-https.tls=true
-      - traefik.http.routers.app-capture-live-https.tls.certresolver=cloudflare
-      - traefik.http.routers.app-capture-live-https.entrypoints=websecure
-      - traefik.http.routers.app-capture-live-https.rule=Host(`bartlomiejcisek.online`)
+      - traefik.http.routers.frontend-capture-live.rule=Host(`${VITE_APP_DOMAIN}`)
+      - traefik.http.routers.frontend-capture-live.entrypoints=web
     networks:
       - traefik
 
