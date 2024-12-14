@@ -2,6 +2,8 @@ services:
   app:
     container_name: frontend-capture-live
     image: bartek2k/capture-live-frontend:latest
+    env_file:
+      - .env
     environment:
       VITE_APP_API_URL: ${VITE_APP_API_URL}
     labels:
