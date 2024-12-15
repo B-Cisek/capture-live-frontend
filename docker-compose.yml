@@ -2,6 +2,10 @@ services:
   app:
     container_name: frontend-capture-live
     image: bartek2k/capture-live-frontend:latest
+    build:
+      context: .
+      args:
+        VITE_APP_API_URL: ${VITE_APP_API_URL}
     env_file:
       - .env
     environment:
