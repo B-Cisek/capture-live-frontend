@@ -19,10 +19,11 @@ const token = () => next => (url, opts) => {
 }
 
 export const api = wretch()
-  .url(import.meta.env.VITE_APP_API_URL)
+  .url(import.meta.env.VITE_APP_API_URL + '/api')
   .headers({
     'Content-Type': 'application/json',
     Accept: 'application/json',
+    'Access-Control-Allow-Origin': import.meta.env.VITE_APP_API_URL,
   })
   .middlewares([
     token(), // add token if present in cookies
