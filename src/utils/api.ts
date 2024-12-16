@@ -24,7 +24,6 @@ export const api = wretch()
   .headers({
     'Content-Type': 'application/json',
     Accept: 'application/json',
-    Referer: import.meta.env.VITE_APP_API_URL,
   })
   .middlewares([
     token(), // add token if present in cookies
