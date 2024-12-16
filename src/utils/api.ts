@@ -20,7 +20,6 @@ const token = () => next => (url, opts) => {
 
 export const api = wretch()
   .url(import.meta.env.VITE_APP_API_URL + '/api')
-  .options({ credentials: 'include', mode: 'cors' })
   .headers({
     'Content-Type': 'application/json',
     Accept: 'application/json',
