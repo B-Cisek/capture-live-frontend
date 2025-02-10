@@ -11,6 +11,9 @@ import ToggleDarkMode from '@/components/ToggleDarkMode.vue'
         <RouterLink to="/about">About</RouterLink>
       </nav>
   </header>
-
-  <RouterView />
+  <main>
+    <component :is="$route.meta.layout || 'div'">
+      <RouterView />
+    </component>
+  </main>
 </template>
