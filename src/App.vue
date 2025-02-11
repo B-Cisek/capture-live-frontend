@@ -1,19 +1,9 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import ToggleDarkMode from '@/components/ToggleDarkMode.vue'
+import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header>
-    <ToggleDarkMode />
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-  </header>
-  <main>
-    <component :is="$route.meta.layout || 'div'">
-      <RouterView />
-    </component>
-  </main>
+  <component :is="$route.meta.layout || 'div'">
+    <RouterView />
+  </component>
 </template>
