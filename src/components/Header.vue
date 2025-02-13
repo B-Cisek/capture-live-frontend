@@ -8,10 +8,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Input } from '@/components/ui/input'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { CircleUser, Menu, Package2, Search } from 'lucide-vue-next'
+import { CircleUser, Menu, Package2 } from 'lucide-vue-next'
 import ToggleDarkMode from '@/components/ToggleDarkMode.vue'
+import { useAuthStore } from '@/stores/auth.ts'
+
+const auth = useAuthStore()
+
+const handleLogout = async () => {
+  await auth.logout()
+}
 </script>
 
 <template>
@@ -25,6 +31,12 @@ import ToggleDarkMode from '@/components/ToggleDarkMode.vue'
       </RouterLink>
       <RouterLink to="/dashboard" class="text-foreground transition-colors hover:text-foreground">
         Dashboard
+      </RouterLink>
+      <RouterLink to="/channels" class="text-foreground transition-colors hover:text-foreground">
+        Channels
+      </RouterLink>
+      <RouterLink to="/videos" class="text-foreground transition-colors hover:text-foreground">
+        Videos
       </RouterLink>
     </nav>
     <Sheet>
@@ -41,6 +53,8 @@ import ToggleDarkMode from '@/components/ToggleDarkMode.vue'
             <span class="sr-only">Acme Inc</span>
           </RouterLink>
           <RouterLink to="/dashboard" class="hover:text-foreground"> Dashboard </RouterLink>
+          <RouterLink to="/channels" class="hover:text-foreground"> Channels </RouterLink>
+          <RouterLink to="/videos" class="hover:text-foreground"> Videos </RouterLink>
         </nav>
       </SheetContent>
     </Sheet>
@@ -59,7 +73,7 @@ import ToggleDarkMode from '@/components/ToggleDarkMode.vue'
           <DropdownMenuItem>Settings</DropdownMenuItem>
           <DropdownMenuItem>Support</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Logout</DropdownMenuItem>
+          <DropdownMenuItem @click="handleLogout">Logout</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
