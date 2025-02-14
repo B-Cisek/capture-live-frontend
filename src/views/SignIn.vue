@@ -14,7 +14,6 @@ import { Label } from '@/components/ui/label'
 import { type LoginCredentials, useAuthStore } from '@/stores/auth.ts'
 import router from '@/router'
 import { Loader2 } from 'lucide-vue-next'
-import type { AxiosError } from 'axios'
 
 const auth = useAuthStore()
 
@@ -36,7 +35,7 @@ const handleSubmit = async () => {
   try {
     await auth.login(credentials)
     await router.replace({ name: 'dashboard' })
-  } catch (err: AxiosError) {
+  } catch (err: unknown) {
     submitInfo.message = Array.isArray(err.response?.data?.message)
       ? err.response?.data?.message.join(', ')
       : err.response?.data?.message

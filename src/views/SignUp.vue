@@ -1,23 +1,50 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useAuthStore, type SignupCredentials } from '@/stores/auth'
+import router from '@/router'
+import { Loader2 } from 'lucide-vue-next'
 
-const email = ref('')
-const password = ref('')
-const confirmPassword = ref('')
-const name = ref('')
+const auth = useAuthStore()
 
-const handleSubmit = () => {
-  // Handle sign up logic here
-  console.log('Sign up:', {
-    name: name.value,
-    email: email.value,
-    password: password.value,
-    confirmPassword: confirmPassword.value,
-  })
+const password_confirmation = ref<string>('')
+
+const credentials = reactive<SignupCredentials>({
+  email: '',
+  password: '',
+})
+
+const submitInfo = reactive({
+  loading: false,
+  message: '',
+})
+
+const handleSubmit = async () => {
+  submitInfo.loading = true
+
+  if (auth.isAuthenticated) return
+
+  if (password_confirmation.value !== credentials.password) {
+    submitInfo.message = 'Passwords do not match'
+    submitInfo.loading = false
+    return
+  }
+
+  try {
+    await auth.signup(credentials)
+    await router.replace({ name: 'dashboard' })
+  } catch (err: unknown) {
+    console.log(err)
+
+    submitInfo.message = Array.isArray(err.response?.data?.message)
+      ? err.response?.data?.message.join(', ')
+      : err.response?.data?.message
+  } finally {
+    submitInfo.loading = false
+  }
 }
 </script>
 
@@ -29,25 +56,31 @@ const handleSubmit = () => {
     </CardHeader>
     <CardContent>
       <div class="grid gap-4">
-        <div class="grid grid-cols-2 gap-4">
-          <div class="grid gap-2">
-            <Label for="first-name">First name</Label>
-            <Input id="first-name" placeholder="Max" required />
-          </div>
-          <div class="grid gap-2">
-            <Label for="last-name">Last name</Label>
-            <Input id="last-name" placeholder="Robinson" required />
-          </div>
-        </div>
         <div class="grid gap-2">
           <Label for="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" required />
+          <Input
+            v-model="credentials.email"
+            id="email"
+            type="email"
+            placeholder="m@example.com"
+            required
+          />
         </div>
         <div class="grid gap-2">
           <Label for="password">Password</Label>
-          <Input id="password" type="password" />
+          <Input v-model="credentials.password" id="password" type="password" />
         </div>
-        <Button type="submit" class="w-full"> Create an account </Button>
+        <div class="grid gap-2">
+          <Label for="password_confirmation">Password Confirmation</Label>
+          <Input v-model="password_confirmation" id="password_confirmation" type="password" />
+        </div>
+        <span v-if="submitInfo.message" class="text-sm text-red-500">
+          {{ submitInfo.message }}
+        </span>
+        <Button @click="handleSubmit" :disabled="submitInfo.loading" type="submit" class="w-full">
+          <Loader2 v-if="submitInfo.loading" class="w-4 h-4 mr-2 animate-spin" />
+          Create an account
+        </Button>
         <Button variant="outline" class="w-full"> Sign up with GitHub </Button>
       </div>
       <div class="mt-4 text-center text-sm">
