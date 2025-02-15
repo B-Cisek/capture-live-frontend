@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { Home } from 'lucide-vue-next'
 import BaseLayout from '@/layouts/BaseLayout.vue'
 import HomeLayout from '@/layouts/HomeLayout.vue'
 import Dashboard from '@/views/Dashboard.vue'
@@ -7,6 +6,7 @@ import Channels from '@/views/Channels.vue'
 import Videos from '@/views/Videos.vue'
 import AuthLayout from '@/layouts/AuthLayout.vue'
 import { useAuthStore } from '@/stores/auth.ts'
+import Home from '@/views/Home.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -59,14 +59,14 @@ router.beforeEach(async (to, from, next) => {
       await authStore.fetchUser()
     } catch (error) {
       await authStore.logout()
-      next('/signin')
+      return next('/signin')
     }
   }
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    next('/signin')
+    return next('/signin')
   } else if (redirectPath.includes(to.path) && authStore.isAuthenticated) {
-    next('/dashboard')
+    return next('/dashboard')
   } else {
     next()
   }
