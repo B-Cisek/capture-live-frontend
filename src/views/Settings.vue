@@ -1,3 +1,2 @@
 <script setup lang="ts"></script>
-
-<template>videos</template>
+<template>settings</template>

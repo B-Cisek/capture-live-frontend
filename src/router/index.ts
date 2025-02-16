@@ -7,6 +7,7 @@ import Videos from '@/views/Videos.vue'
 import AuthLayout from '@/layouts/AuthLayout.vue'
 import { useAuthStore } from '@/stores/auth.ts'
 import Home from '@/views/Home.vue'
+import Settings from '@/views/Settings.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,19 +22,25 @@ const router = createRouter({
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard,
-      meta: { layout: BaseLayout, requiresAuth: true },
+      meta: { layout: BaseLayout, requiresAuth: true, title: 'Dashboard' },
     },
     {
       path: '/channels',
       name: 'channels',
       component: Channels,
-      meta: { layout: BaseLayout, requiresAuth: true },
+      meta: { layout: BaseLayout, requiresAuth: true, title: 'Channels' },
     },
     {
       path: '/videos',
       name: 'videos',
       component: Videos,
-      meta: { layout: BaseLayout, requiresAuth: true },
+      meta: { layout: BaseLayout, requiresAuth: true, title: 'Videos' },
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: Settings,
+      meta: { layout: BaseLayout, requiresAuth: true, title: 'Settings' },
     },
     {
       path: '/signin',
