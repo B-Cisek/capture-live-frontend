@@ -47,6 +47,11 @@ const router = createRouter({
       component: () => import('../views/SignUp.vue'),
       meta: { layout: AuthLayout },
     },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'error',
+      component: () => import('../views/Error.vue'),
+    },
   ],
 })
 
