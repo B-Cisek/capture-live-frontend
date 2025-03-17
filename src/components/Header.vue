@@ -21,10 +21,9 @@ const handleLogout = async () => {
 </script>
 
 <template>
-  <header class="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
+  <header class="sticky top-0 fl flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
     <nav
-      class="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6"
-    >
+      class="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
       <RouterLink to="/" class="flex items-center gap-2 text-lg font-semibold md:text-base">
         <Package2 class="h-6 w-6" />
         <span class="sr-only">Acme Inc</span>

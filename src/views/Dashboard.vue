@@ -1,17 +1,9 @@
-<script setup lang="ts">
-import { useAuthStore } from '@/stores/auth'
-import api from '@/utils/axios'
-
-const refresh = async () => {
-  const res = await api.get('/channels')
-  console.log(res.data)
-}
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <h1>Dashboard</h1>
-  <RouterLink to="/signup">Sign Up</RouterLink>
-  <RouterLink to="/signin">Sign In</RouterLink>
-
-  <button @click="refresh">get channels</button>
+  <div class="container mx-auto p-4">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold">Channels</h1>
+    </div>
+  </div>
 </template>

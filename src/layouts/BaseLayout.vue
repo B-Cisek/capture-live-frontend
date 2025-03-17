@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import ToggleDarkMode from '@/components/ToggleDarkMode.vue'
-import { Badge } from '@/components/ui/badge'
-
+import Toaster from '@/components/ui/toast/Toaster.vue'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import {
@@ -25,6 +24,7 @@ const handleLogout = async () => {
 </script>
 
 <template>
+  <Toaster />
   <div class="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
     <div class="hidden border-r bg-muted/40 md:block">
       <div class="flex h-full max-h-screen flex-col gap-2">
@@ -170,21 +170,7 @@ const handleLogout = async () => {
         </DropdownMenu>
       </header>
       <main class="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-        <div class="flex items-center">
-          <h1 class="text-lg font-semibold md:text-2xl">{{ $route.meta.title ?? '' }}</h1>
-        </div>
-        <div
-          class="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
-        >
-          <slot />
-          <!-- <div class="flex flex-col items-center gap-1 text-center">
-            <h3 class="text-2xl font-bold tracking-tight">You have no products</h3>
-            <p class="text-sm text-muted-foreground">
-              You can start selling as soon as you add a product.
-            </p>
-            <Button class="mt-4"> Add Product </Button>
-          </div> -->
-        </div>
+        <slot />
       </main>
     </div>
   </div>

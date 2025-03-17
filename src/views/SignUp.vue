@@ -59,8 +59,8 @@ const handleSubmit = async () => {
         <div class="grid gap-2">
           <Label for="email">Email</Label>
           <Input
-            v-model="credentials.email"
             id="email"
+            v-model="credentials.email"
             type="email"
             placeholder="m@example.com"
             required
@@ -68,16 +68,16 @@ const handleSubmit = async () => {
         </div>
         <div class="grid gap-2">
           <Label for="password">Password</Label>
-          <Input v-model="credentials.password" id="password" type="password" />
+          <Input id="password" v-model="credentials.password" type="password" />
         </div>
         <div class="grid gap-2">
           <Label for="password_confirmation">Password Confirmation</Label>
-          <Input v-model="password_confirmation" id="password_confirmation" type="password" />
+          <Input id="password_confirmation" v-model="password_confirmation" type="password" />
         </div>
         <span v-if="submitInfo.message" class="text-sm text-red-500">
           {{ submitInfo.message }}
         </span>
-        <Button @click="handleSubmit" :disabled="submitInfo.loading" type="submit" class="w-full">
+        <Button :disabled="submitInfo.loading" type="submit" class="w-full" @click="handleSubmit">
           <Loader2 v-if="submitInfo.loading" class="w-4 h-4 mr-2 animate-spin" />
           Create an account
         </Button>

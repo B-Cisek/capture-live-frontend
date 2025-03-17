@@ -56,8 +56,8 @@ const handleSubmit = async () => {
         <div class="grid gap-2">
           <Label for="email">Email</Label>
           <Input
-            v-model="credentials.email"
             id="email"
+            v-model="credentials.email"
             type="email"
             placeholder="m@example.com"
             required
@@ -68,12 +68,12 @@ const handleSubmit = async () => {
             <Label for="password">Password</Label>
             <a href="#" class="ml-auto inline-block text-sm underline"> Forgot your password? </a>
           </div>
-          <Input v-model="credentials.password" id="password" type="password" required />
+          <Input id="password" v-model="credentials.password" type="password" required />
         </div>
         <span v-if="submitInfo.message" class="text-sm text-red-500">
           {{ submitInfo.message }}
         </span>
-        <Button @click="handleSubmit" :disabled="submitInfo.loading" type="submit" class="w-full">
+        <Button :disabled="submitInfo.loading" type="submit" class="w-full" @click="handleSubmit">
           <Loader2 v-if="submitInfo.loading" class="w-4 h-4 mr-2 animate-spin" />
           Login
         </Button>

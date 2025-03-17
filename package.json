@@ -14,19 +14,23 @@
   },
   "dependencies": {
     "@radix-icons/vue": "^1.0.0",
+    "@vee-validate/zod": "^4.15.0",
     "@vueuse/core": "^12.5.0",
     "@vueuse/integrations": "^12.5.0",
-    "axios": "^1.7.9",
+    "axios": "1.8.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-vue-next": "^0.475.0",
     "pinia": "^2.3.1",
     "radix-vue": "^1.9.13",
-    "tailwind-merge": "^3.0.1",
+    "reka-ui": "^2.0.2",
+    "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
     "universal-cookie": "^7.2.2",
+    "vee-validate": "^4.15.0",
     "vue": "^3.5.13",
-    "vue-router": "^4.5.0"
+    "vue-router": "^4.5.0",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@iconify-json/radix-icons": "^1.2.2",
